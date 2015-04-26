@@ -1,0 +1,8 @@
+bower_components
+src/public/stylesheets
+node_modules
+coverage
+*.idea
+*.swp
+*.min.js
+*.min.js.map

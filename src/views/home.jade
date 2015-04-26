@@ -1,0 +1,9 @@
+extends layout
+
+block content
+  h1= 'Hello ' + user.firstName
+  a(href='/signout') Logout
+
+  #message
+    if message
+      h1 #{message}
