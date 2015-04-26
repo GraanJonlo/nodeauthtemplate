@@ -127,7 +127,9 @@ app.use(express.static(__dirname + '/public'));
 
 app.use(expressSession({
   store: new RedisStore(redisOptions),
-  secret: sessionSecret
+  secret: sessionSecret,
+  name: 'nodeauthtemplate.sid',
+  resave: true
 }));
 app.use(passport.initialize());
 app.use(passport.session());
