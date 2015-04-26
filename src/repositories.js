@@ -1,6 +1,6 @@
 var r = require('rethinkdbdash')({host: '127.0.0.2', port: 28015});
 
-module.exports.Users = {
+module.exports.users = {
   get: function(id) {
     return r.db('somedb').table('users').get(id).run();
   },

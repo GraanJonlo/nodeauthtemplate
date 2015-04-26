@@ -3,7 +3,7 @@ var bcrypt = require('bcrypt-nodejs'),
   cookieParser = require('cookie-parser'),
   express = require('express'),
   expressSession = require('express-session'),
-  favicon = require('static-favicon'),
+  favicon = require('serve-favicon'),
   flash = require('connect-flash'),
   LocalStrategy = require('passport-local'),
   logger = require('morgan'),
@@ -31,7 +31,7 @@ passport.serializeUser(function(user, done) {
 });
 
 passport.deserializeUser(function(id, done) {
-  repos.Users.get(id)
+  repos.users.get(id)
     .then(function(user) {
       done(null, user);
     })
@@ -44,21 +44,15 @@ passport.use('login', new LocalStrategy({
     passReqToCallback : true
   },
   function(req, username, password, done) {
-    repos.Users.filter({ 'username': username })
+    repos.users.filter({ 'username': username })
       .then(function(matches) {
         var user;
 
-        if (matches.length === 0) {
-          return done(null, false, req.flash('message', 'User not found.'));
+        if (matches.length === 0 || !isValidPassword(matches[0], password)) {
+          return done(null, false, req.flash('message', 'Invalid username or password'));
         }
 
-        user = matches[0];
-
-        if (!isValidPassword(user, password)) {
-          return done(null, false, req.flash('message', 'Invalid Password'));
-        }
-
-        return done(null, user);
+        return done(null, matches[0]);
       })
       .caught(function(err) {
         return done(err);
@@ -74,7 +68,7 @@ passport.use('signup', new LocalStrategy({
   },
   function(req, username, password, done) {
     findOrCreateUser = function(){
-      repos.Users.filter({ "username": username })
+      repos.users.filter({ "username": username })
         .then(function(matches) {
           var newUser;
 
@@ -91,7 +85,7 @@ passport.use('signup', new LocalStrategy({
             "lastName": req.param('lastName')
           };
 
-          repos.Users.insert(newUser)
+          repos.users.insert(newUser)
             .then(function() {
               return done(null, newUser);
             })
@@ -117,10 +111,10 @@ function createHash(password){
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
-app.use(favicon());
+//app.use(favicon(__dirname + '/public/favicon.ico'));
 app.use(logger('dev'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded());
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(flash());
 app.use(express.static(__dirname + '/public'));
