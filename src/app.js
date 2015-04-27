@@ -11,6 +11,7 @@ var bcrypt = require('bcrypt-nodejs'),
   path = require('path'),
   RedisStore = require('connect-redis')(expressSession),
   uuid = require('node-uuid'),
+  sassMiddleware = require('node-sass-middleware'),
   routes = require('./routes/index'),
   repos = require('./repositories'),
   app = express(),
@@ -127,6 +128,14 @@ app.use(expressSession({
 }));
 app.use(passport.initialize());
 app.use(passport.session());
+
+app.use(sassMiddleware({
+  src: __dirname + '/sass',
+  dest: __dirname + '/public/stylesheets',
+  debug: true,
+  outputStyle: 'expanded',
+  prefix: '/stylesheets'
+}));
 
 app.use('/', routes);
 

@@ -11,12 +11,17 @@ var isAuthenticated = function (req, res, next) {
 }
 
 router.get('/signin', function(req, res) {
-  res.render('signin', { message: req.flash('message') });
+  res.render('signin', {
+    message: req.flash('message'),
+    title: 'Signin'
+  });
 });
 
 router.get('/', isAuthenticated, function(req, res){
   res.render('home', {
-    message: req.flash('message'), user: req.user
+    message: req.flash('message'),
+    title: 'Home',
+    user: req.user
   });
 });
 
@@ -27,7 +32,10 @@ router.post('/login', passport.authenticate('login', {
 }));
 
 router.get('/signup', function(req, res){
-  res.render('register',{message: req.flash('message')});
+  res.render('register',{
+    message: req.flash('message'),
+    title: 'Signup'
+  });
 });
 
 router.post('/signup', passport.authenticate('signup', {

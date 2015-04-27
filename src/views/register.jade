@@ -1,17 +1,18 @@
 extends layout
 
 block content
-	div.container
-		h1.text-center.login-title Registration Details
+	.row
+		.grid24
+			h1 Registration Details
 
-		form(action='/signup', method='POST')
-			input(type='text', name='username', placeholder='Username',required, autofocus)
-			input(type='password', name='password', placeholder='Password', required)
-			input(type='email', name='email', placeholder='Email', required)
-			input(type='text', name='firstName', placeholder='First Name', required)
-			input(type='text', name='lastName', placeholder='Last Name', required)
-			button(type='submit') Register
+			form(action='/signup', method='POST')
+				input(type='text', name='username', placeholder='Username',required, autofocus)
+				input(type='password', name='password', placeholder='Password', required)
+				input(type='email', name='email', placeholder='Email', required)
+				input(type='text', name='firstName', placeholder='First Name', required)
+				input(type='text', name='lastName', placeholder='Last Name', required)
+				button(type='submit') Register
 
-		#message
-			if message
-				p #{message}
+			#message
+				if message
+					p #{message}

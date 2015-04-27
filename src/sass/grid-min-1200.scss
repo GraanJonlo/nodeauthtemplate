@@ -1,0 +1,35 @@
+@media screen and (min-width:1200px) {
+	.container { width:1166px }
+		.row { width:1176px; }
+			.grid24 { width:1166px; }
+			.grid23 { width:1117px; }
+			.grid22 { width:1068px; }
+			.grid21 { width:1019px; }
+			.grid20 { width:970px; }
+			.grid19 { width:921px; }
+			.grid18 { width:872px; }
+			.grid17 { width:823px; }
+			.grid16 { width:774px; }
+			.grid15 { width:725px; }
+			.grid14 { width:676px; }
+			.grid13 { width:627px; }
+			.grid12 { width:578px; }
+			.grid11 { width:529px; }
+			.grid10 { width:480px; }
+			.grid9 { width:431px; }
+			.grid8 { width:382px; }
+			.grid7 { width:333px; }
+			.grid6 { width:284px; }
+			.grid5 { width:235px; }
+			.grid4 { width:186px; }
+			.grid3 { width:137px; }
+			.grid2 { width:88px; }
+			.grid1 { width:39px; }
+			
+			.break-into-1-desktopwide { width:1166px; }
+			.break-into-2-desktopwide { width:578px; }
+			.break-into-3-desktopwide { width:382px; }
+			.break-into-4-desktopwide { width:284px; }
+			
+			.hidden-desktop { display:none; }
+}

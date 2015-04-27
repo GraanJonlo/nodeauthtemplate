@@ -2,5 +2,13 @@ doctype html
 html
   head
     title= title
+    link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css')
+    link(rel='stylesheet', href='/stylesheets/grid.css')
+    link(rel='stylesheet', href='/stylesheets/grid-max-767.css')
+    link(rel='stylesheet', href='/stylesheets/grid-min-768-max-979.css')
+    link(rel='stylesheet', href='/stylesheets/grid-min-980-max-1199.css')
+    link(rel='stylesheet', href='/stylesheets/grid-min-1200.css')
+    link(rel='stylesheet', href='/stylesheets/style.css')
   body
-    block content
+    .container
+      block content

@@ -1,9 +1,11 @@
 extends layout
 
 block content
-  h1= 'Hello ' + user.firstName
-  a(href='/signout') Logout
+  .row
+    .grid24
+      h1= 'Hello ' + user.firstName
+      a(href='/signout') Logout
 
-  #message
-    if message
-      p #{message}
+      #message
+        if message
+          p #{message}

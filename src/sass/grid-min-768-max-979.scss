@@ -1,0 +1,35 @@
+@media screen and (min-width:768px) and (max-width:979px) {
+	.container { width:734px; }
+		.row { width:744px; }
+			.grid24 { width:734px; }
+			.grid23 { width:703px; }
+			.grid22 { width:672px; }
+			.grid21 { width:641px; }
+			.grid20 { width:610px; }
+			.grid19 { width:579px; }
+			.grid18 { width:548px; }
+			.grid17 { width:517px; }
+			.grid16 { width:486px; }
+			.grid15 { width:455px; }
+			.grid14 { width:424px; }
+			.grid13 { width:393px; }
+			.grid12 { width:362px; }
+			.grid11 { width:331px; }
+			.grid10 { width:300px; }
+			.grid9 { width:269px; }
+			.grid8 { width:238px; }
+			.grid7 { width:207px; }
+			.grid6 { width:176px; }
+			.grid5 { width:145px; }
+			.grid4 { width:114px; }
+			.grid3 { width:83px; }
+			.grid2 { width:52px; }
+			.grid1 { width:21px; }
+			
+			.break-into-1-tablet { width:734px; }
+			.break-into-2-tablet { width:362px; }
+			.break-into-3-tablet { width:238px; }
+			.break-into-4-tablet { width:176px; }
+			
+			.hidden-tablet { display:none; }
+}
