@@ -4,10 +4,10 @@ block content
   .row
     .grid24
       h1 Sign in
-        form(action='/login', method='POST')
-          input(type='text', name='username', placeholder='Username', required, autofocus)
-          input(type='password', name='password', placeholder='Password', required)
-          button(type='submit') Sign In
+      form(action='/login', method='POST')
+        input(type='text', name='username', placeholder='Username', required, autofocus)
+        input(type='password', name='password', placeholder='Password', required)
+        button(type='submit') Sign In
       a(href='/signup') Create an account
       #message
       if message
