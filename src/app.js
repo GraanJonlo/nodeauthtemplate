@@ -1,133 +1,29 @@
-var bcrypt = require('bcrypt-nodejs'),
-  bodyParser = require('body-parser'),
+var bodyParser = require('body-parser'),
   cookieParser = require('cookie-parser'),
   express = require('express'),
-  expressSession = require('express-session'),
   favicon = require('serve-favicon'),
   flash = require('connect-flash'),
-  LocalStrategy = require('passport-local'),
   logger = require('morgan'),
-  passport = require('passport'),
   path = require('path'),
-  RedisStore = require('connect-redis')(expressSession),
-  uuid = require('node-uuid'),
   sassMiddleware = require('node-sass-middleware'),
+  useragent = require('express-useragent'),
+  bus = require('./messageBus'),
+  passport = require('./passport'),
   routes = require('./routes/index'),
-  repos = require('./repositories'),
-  app = express(),
-  redisOptions = {
-    host: process.env.REDIS_HOST || '127.0.0.1',
-    port: process.env.REDIS_PORT || '6379',
-    db: parseInt(process.env.REDIS_DB || 1)
-  },
-  hashRounds = parseInt(process.env.HASH_ROUNDS || 12),
-  sessionSecret = process.env.SESSION_SECRET || 'replace this with something better';
-
-if (process.env.REDIS_PASS) {
-  redisOptions.pass = process.env.REDIS_PASS;
-}
-
-passport.serializeUser(function(user, done) {
-  done(null, user.id);
-});
-
-passport.deserializeUser(function(id, done) {
-  repos.users.get(id)
-    .then(function(user) {
-      done(null, user);
-    })
-    .caught(function(err) {
-      done(err, null);
-    });
-});
-
-passport.use('login', new LocalStrategy({
-    passReqToCallback : true
-  },
-  function(req, username, password, done) {
-    repos.users.filter({ 'username': username })
-      .then(function(matches) {
-        var user;
-
-        if (matches.length === 0 || !isValidPassword(matches[0], password)) {
-          return done(null, false, req.flash('message', 'Invalid username or password'));
-        }
-
-        return done(null, matches[0]);
-      })
-      .caught(function(err) {
-        return done(err);
-      });
-}));
-
-function isValidPassword(user, password){
-  return bcrypt.compareSync(password, user.password);
-}
-
-passport.use('signup', new LocalStrategy({
-    passReqToCallback : true
-  },
-  function(req, username, password, done) {
-    findOrCreateUser = function(){
-      repos.users.filter({ "username": username })
-        .then(function(matches) {
-          var newUser;
-
-          if (matches.length > 0) {
-            return done(null, false, req.flash('message','User already exists'));
-          }
-
-          newUser = {
-            "id": uuid.v4(),
-            "username": username,
-            "password": createHash(password),
-            "email": req.param('email'),
-            "firstName": req.param('firstName'),
-            "lastName": req.param('lastName')
-          };
-
-          repos.users.insert(newUser)
-            .then(function() {
-              return done(null, newUser);
-            })
-            .caught(function(err) {
-              throw err;
-            });
-        })
-        .caught(function(err) {
-          return done(err);
-        });
-    };
-
-    // Delay the execution of findOrCreateUser and execute 
-    // the method in the next tick of the event loop
-    process.nextTick(findOrCreateUser);
-  })
-);
-
-function createHash(password){
- return bcrypt.hashSync(password, bcrypt.genSaltSync(hashRounds), null);
-}
+  session = require('./session'),
+  visitors = require('./visitors'),
+  app = express();
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
-//app.use(favicon(__dirname + '/public/favicon.ico'));
+app.use(favicon(__dirname + '/public/favicon.ico'));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(flash());
-app.use(express.static(__dirname + '/public'));
-
-app.use(expressSession({
-  store: new RedisStore(redisOptions),
-  secret: sessionSecret,
-  name: 'nodeauthtemplate.sid',
-  resave: true
-}));
-app.use(passport.initialize());
-app.use(passport.session());
+app.use(useragent.express());
 
 app.use(sassMiddleware({
   src: __dirname + '/sass',
@@ -136,6 +32,29 @@ app.use(sassMiddleware({
   outputStyle: 'expanded',
   prefix: '/stylesheets'
 }));
+
+app.use(express.static(__dirname + '/public'));
+
+app.use(session);
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+app.use(function(req,res,next) {
+  if (!req.session.visitor && req.accepts('html')) {
+    visitors.create(req)
+      .then(function(visitor) {
+        req.session.visitor = visitor.getId();
+        next();
+      })
+      .catch(function(err) {
+        // Should probably do something
+        next();
+      });
+  } else {
+    next();
+  }
+});
 
 app.use('/', routes);
 

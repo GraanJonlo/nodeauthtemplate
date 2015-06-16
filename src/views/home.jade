@@ -2,10 +2,10 @@ extends layout
 
 block content
   .row
-    .grid24
-      h1= 'Hello ' + user.firstName
-      a(href='/signout') Logout
-
+    div(class='twelve columns')
+      h2 Home
+  .row
+    div(class='twelve columns')
       #message
         if message
           p #{message}

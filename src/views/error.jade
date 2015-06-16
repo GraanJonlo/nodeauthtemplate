@@ -2,7 +2,7 @@ extends layout
 
 block content
   .row
-    .grid24
-      h1= message
-      h2= error.status
+    div(class='twelve columns')
+      h2= message
+      h3= error.status
       pre #{error.stack}

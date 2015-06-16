@@ -1,18 +1,28 @@
 extends layout
 
 block content
-	.row
-		.grid24
-			h1 Registration Details
-
-			form(action='/signup', method='POST')
-				input(type='text', name='username', placeholder='Username',required, autofocus)
-				input(type='password', name='password', placeholder='Password', required)
-				input(type='email', name='email', placeholder='Email', required)
-				input(type='text', name='firstName', placeholder='First Name', required)
-				input(type='text', name='lastName', placeholder='Last Name', required)
-				button(type='submit') Register
-
-			#message
-				if message
-					p #{message}
+  .row
+    div(class='twelve columns')
+      h2 Registration Details
+  .row
+    div(class='twelve columns')
+      #message
+        if message
+          p #{message}
+  form(action='/signup', method='POST')
+    .row
+      div(class='six columns')
+        label(for='username') Your username
+        input(type='text', class='u-full-width', name='username', id='username', placeholder='Username', required, autofocus)
+        label(for='password') Your password
+        input(type='password', class='u-full-width', name='password', id='password', placeholder='Password', required)
+        label(for='email') Your email
+        input(type='email', class='u-full-width', name='email', id='email', placeholder='Email', required)
+      div(class='six columns')
+        label(for='firstName') First name
+        input(type='text', class='u-full-width', name='firstName', id='firstName', placeholder='First Name', required)
+        label(for='lastName') Last name
+        input(type='text', class='u-full-width', name='lastName', id='lastName', placeholder='Last Name', required)
+    .row
+      div(class='twelve columns')
+        button(type='submit', class='u-full-width') Register

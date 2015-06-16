@@ -21,7 +21,7 @@ router.get('/', isAuthenticated, function(req, res){
   res.render('home', {
     message: req.flash('message'),
     title: 'Home',
-    user: req.user
+    user: req.user.dto
   });
 });
 
@@ -47,6 +47,20 @@ router.post('/signup', passport.authenticate('signup', {
 router.get('/signout', function(req, res) {
   req.logout();
   res.redirect('/signin');
+});
+
+router.get('/myprofile', isAuthenticated, function(req, res){
+  res.render('myprofile', {
+    message: req.flash('message'),
+    title: 'My Profile',
+    user: req.user.dto
+  });
+});
+
+router.post('/myprofile', isAuthenticated, function(req, res) {
+  req.user.updateAbout(req.param('about'));
+  console.log(req.param('foo'));
+  res.redirect('/myprofile');
 });
 
 module.exports = router;

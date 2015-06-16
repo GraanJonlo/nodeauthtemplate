@@ -1,1 +1,15 @@
+body { background-color: #f9f9f9; }
+
 .container { margin:0 auto; }
+
+.signin { text-align: right; }
+.signin a { margin:10px 0 0 10px; }
+.signin img { vertical-align: middle; }
+
+.navbar-list { list-style: none; margin-bottom: 0; }
+.navbar-item { position: relative; float: left; }
+.navbar-link { text-transform: uppercase; font-size: 11px; font-weight: 600; letter-spacing: .2rem; margin-right: 35px; text-decoration: none; line-height: 6.5rem; color: #222; }
+
+.tag-list { list-style: none; margin-bottom: 0; }
+.tag-item { position: relative; float: left; }
+.tag-item span { background-color: #d9d9d9; margin-right: 10px; padding: 4px 6px; }

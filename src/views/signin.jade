@@ -2,13 +2,22 @@ extends layout
 
 block content
   .row
-    .grid24
-      h1 Sign in
-      form(action='/login', method='POST')
-        input(type='text', name='username', placeholder='Username', required, autofocus)
-        input(type='password', name='password', placeholder='Password', required)
-        button(type='submit') Sign In
-      a(href='/signup') Create an account
+    div(class='twelve columns')
+      h2 Sign In
+  .row
+    div(class='twelve columns')
       #message
       if message
         p #{message}
+  form(action='/login', method='POST')
+    .row
+      div(class='six columns')
+        label(for='username') Your username
+        input(type='text', class='u-full-width', name='username', id='username', placeholder='Username', required, autofocus)
+      div(class='six columns')
+        label(for='password') Your password
+        input(type='password', class='u-full-width', name='password', id='password', placeholder='Password', required)
+    .row
+      div(class='twelve columns')
+        button(type='submit', class='u-full-width') Sign In
+        a(href='/signup') Create an account

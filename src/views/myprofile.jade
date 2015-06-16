@@ -1,0 +1,52 @@
+extends layout
+
+block content
+  .row
+    div(class='twelve columns')
+      h2 My Profile
+  .row
+    div(class='twelve columns')
+      #message
+        if message
+          p #{message}
+  form(action='/myprofile', method='POST')
+    .row
+      div(class='two columns')
+        img(src='http://www.gravatar.com/avatar/#{user.gravatarhash}?s=128', height='128px', width='128px')
+      div(class='ten columns')
+        label(for='username') Username
+        input(type='text', class='u-full-width', name='username', id='username', placeholder='#{user.id}', readonly)
+        label(for='email') Email
+        input(type='text', class='u-full-width', name='email', id='email', placeholder='#{user.email}', readonly)
+    .row
+      div(class='twelve columns')
+        label(for='about') About me
+        textarea(class='u-full-width', name='about', id='about', placeholder='About me', autofocus) #{user.about}
+    .row
+      div(class='twelve columns')
+        button(type='submit', class='u-full-width') Update about me
+    .row
+      div(class='twelve columns')
+        label(for='have') Have
+        input(type='text', class='u-full-width', name='have', id='have', placeholder='Add haves', onkeyup='haveUpdated(this)')
+    .row
+      div(class='twelve columns')
+        ul#has(class='tag-list')
+          li(class='tag-item')
+            span c#
+          li(class='tag-item')
+            span nunit
+    .row
+      div(class='twelve columns')
+        label(for='want') Looking for
+        input(type='text', class='u-full-width', name='want', id='want', placeholder='Add looking for', onkeyup='wantUpdated(this)')
+    .row
+      div(class='twelve columns')
+        ul#wants(class='tag-list')
+          li(class='tag-item')
+            span knife
+          li(class='tag-item')
+            span chef
+
+block scripts
+  script(src='/js/myprofile.js')

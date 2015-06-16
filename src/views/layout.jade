@@ -3,13 +3,28 @@ html
   head
     meta(charset='utf-8')
     title= title
-    link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css')
-    link(rel='stylesheet', href='/stylesheets/grid.css')
-    link(rel='stylesheet', href='/stylesheets/grid-max-767.css')
-    link(rel='stylesheet', href='/stylesheets/grid-min-768-max-979.css')
-    link(rel='stylesheet', href='/stylesheets/grid-min-980-max-1199.css')
-    link(rel='stylesheet', href='/stylesheets/grid-min-1200.css')
+    link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.min.css')
+    link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css')
     link(rel='stylesheet', href='/stylesheets/style.css')
   body
     .container
+      .row
+        div(class='six columns')
+          h1 Template
+        div(class=['six columns', 'signin'])
+          if user
+            span
+              img(src='http://www.gravatar.com/avatar/#{user.gravatarhash}?s=32')
+            span= ' Hello ' + user.firstname
+              a(class='button', href='/signout') Log out
+          else
+            a(class='button', href='/signin') Sign in
+      .row
+        div(class='twelve columns')
+          ul(class='navbar-list')
+            li(class='navbar-item')
+              a(class='navbar-link', href='/') Home
+            li(class='navbar-item')
+              a(class='navbar-link', href='/myprofile') My Profile
       block content
+    block scripts
